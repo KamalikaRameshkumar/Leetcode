@@ -1,0 +1,12 @@
+-- Last updated: 7/17/2026, 2:58:22 PM
+SELECT person_name
+FROM (
+    SELECT
+        person_name,
+        turn,
+        SUM(weight) OVER (ORDER BY turn) AS total_weight
+    FROM Queue
+) q
+WHERE total_weight <= 1000
+ORDER BY turn DESC
+LIMIT 1;
