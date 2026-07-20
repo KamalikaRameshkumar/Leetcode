@@ -1,35 +1,26 @@
-// Last updated: 7/20/2026, 7:13:02 AM
-1/**
-2 * Definition for a binary tree node.
-3 * public class TreeNode {
-4 *     int val;
-5 *     TreeNode left;
-6 *     TreeNode right;
-7 *     TreeNode() {}
-8 *     TreeNode(int val) { this.val = val; }
-9 *     TreeNode(int val, TreeNode left, TreeNode right) {
-10 *         this.val = val;
-11 *         this.left = left;
-12 *         this.right = right;
-13 *     }
-14 * }
-15 */
-16class Solution {
-17    public boolean isSymmetric(TreeNode root) {
-18        return isMirror(root.left, root.right);
-19    }
-20
-21    private boolean isMirror(TreeNode left, TreeNode right) {
-22        if (left == null && right == null)
-23            return true;
-24
-25        if (left == null || right == null)
-26            return false;
-27
-28        if (left.val != right.val)
-29            return false;
-30
-31        return isMirror(left.left, right.right) &&
-32               isMirror(left.right, right.left);
-33    }
-34}
+// Last updated: 7/20/2026, 7:13:39 AM
+1class Solution {
+2    public boolean isPalindrome(String s) {
+3        int left = 0;
+4        int right = s.length() - 1;
+5
+6        while (left < right) {
+7            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
+8                left++;
+9            }
+10
+11            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
+12                right--;
+13            }
+14
+15            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+16                return false;
+17            }
+18
+19            left++;
+20            right--;
+21        }
+22
+23        return true;
+24    }
+25}
