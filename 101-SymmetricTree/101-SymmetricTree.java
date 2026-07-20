@@ -1,26 +1,40 @@
-// Last updated: 7/20/2026, 7:13:39 AM
-1class Solution {
-2    public boolean isPalindrome(String s) {
-3        int left = 0;
-4        int right = s.length() - 1;
-5
-6        while (left < right) {
-7            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
-8                left++;
-9            }
-10
-11            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
-12                right--;
-13            }
-14
-15            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
-16                return false;
-17            }
-18
-19            left++;
-20            right--;
-21        }
+// Last updated: 7/20/2026, 7:14:19 AM
+1/**
+2 * Definition for a binary tree node.
+3 * public class TreeNode {
+4 *     int val;
+5 *     TreeNode left;
+6 *     TreeNode right;
+7 *     TreeNode() {}
+8 *     TreeNode(int val) { this.val = val; }
+9 *     TreeNode(int val, TreeNode left, TreeNode right) {
+10 *         this.val = val;
+11 *         this.left = left;
+12 *         this.right = right;
+13 *     }
+14 * }
+15 */
+16import java.util.*;
+17
+18class Solution {
+19    public List<Integer> preorderTraversal(TreeNode root) {
+20        List<Integer> result = new ArrayList<>();
+21        if (root == null) return result;
 22
-23        return true;
-24    }
-25}
+23        Stack<TreeNode> stack = new Stack<>();
+24        stack.push(root);
+25
+26        while (!stack.isEmpty()) {
+27            TreeNode node = stack.pop();
+28            result.add(node.val);
+29
+30            if (node.right != null)
+31                stack.push(node.right);
+32
+33            if (node.left != null)
+34                stack.push(node.left);
+35        }
+36
+37        return result;
+38    }
+39}
