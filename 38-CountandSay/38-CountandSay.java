@@ -1,31 +1,29 @@
-// Last updated: 7/21/2026, 9:52:49 AM
+// Last updated: 7/21/2026, 9:55:49 AM
 1class Solution {
-2    public String countAndSay(int n) {
-3
-4        String result = "1";
-5
-6        for (int i = 2; i <= n; i++) {
-7
-8            StringBuilder sb = new StringBuilder();
-9            int count = 1;
-10
-11            for (int j = 1; j < result.length(); j++) {
+2
+3    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+4
+5        List<List<Integer>> result = new ArrayList<>();
+6        backtrack(candidates, target, 0, new ArrayList<>(), result);
+7        return result;
+8    }
+9
+10    private void backtrack(int[] candidates, int target, int index,
+11                           List<Integer> current, List<List<Integer>> result) {
 12
-13                if (result.charAt(j) == result.charAt(j - 1)) {
-14                    count++;
-15                } else {
-16                    sb.append(count);
-17                    sb.append(result.charAt(j - 1));
-18                    count = 1;
-19                }
-20            }
+13        if (target == 0) {
+14            result.add(new ArrayList<>(current));
+15            return;
+16        }
+17
+18        if (target < 0) {
+19            return;
+20        }
 21
-22            sb.append(count);
-23            sb.append(result.charAt(result.length() - 1));
-24
-25            result = sb.toString();
+22        for (int i = index; i < candidates.length; i++) {
+23            current.add(candidates[i]);
+24            backtrack(candidates, target - candidates[i], i, current, result);
+25            current.remove(current.size() - 1);
 26        }
-27
-28        return result;
-29    }
-30}
+27    }
+28}
