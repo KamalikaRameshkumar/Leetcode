@@ -1,19 +1,41 @@
-// Last updated: 7/21/2026, 10:26:21 AM
-1class Solution {
-2    public int maxProfit(int[] prices) {
-3
-4        int buy1 = Integer.MIN_VALUE;
-5        int sell1 = 0;
-6        int buy2 = Integer.MIN_VALUE;
-7        int sell2 = 0;
-8
-9        for (int price : prices) {
-10            buy1 = Math.max(buy1, -price);
-11            sell1 = Math.max(sell1, buy1 + price);
-12            buy2 = Math.max(buy2, sell1 - price);
-13            sell2 = Math.max(sell2, buy2 + price);
-14        }
-15
-16        return sell2;
-17    }
-18}
+// Last updated: 7/21/2026, 10:28:53 AM
+1/**
+2 * Definition for a binary tree node.
+3 * public class TreeNode {
+4 *     int val;
+5 *     TreeNode left;
+6 *     TreeNode right;
+7 *     TreeNode() {}
+8 *     TreeNode(int val) { this.val = val; }
+9 *     TreeNode(int val, TreeNode left, TreeNode right) {
+10 *         this.val = val;
+11 *         this.left = left;
+12 *         this.right = right;
+13 *     }
+14 * }
+15 */
+16class Solution {
+17
+18    int maxSum = Integer.MIN_VALUE;
+19
+20    public int maxPathSum(TreeNode root) {
+21        dfs(root);
+22        return maxSum;
+23    }
+24
+25    private int dfs(TreeNode node) {
+26
+27        if (node == null) {
+28            return 0;
+29        }
+30
+31        int left = Math.max(0, dfs(node.left));
+32        int right = Math.max(0, dfs(node.right));
+33
+34        // Maximum path passing through this node
+35        maxSum = Math.max(maxSum, node.val + left + right);
+36
+37        // Return the maximum gain to the parent
+38        return node.val + Math.max(left, right);
+39    }
+40}
