@@ -1,45 +1,28 @@
-// Last updated: 7/21/2026, 10:00:16 AM
+// Last updated: 7/21/2026, 10:03:01 AM
 1class Solution {
-2    public boolean isNumber(String s) {
+2    public int numDistinct(String s, String t) {
 3
-4        boolean seenDigit = false;
-5        boolean seenDot = false;
-6        boolean seenExp = false;
-7
-8        for (int i = 0; i < s.length(); i++) {
-9
-10            char c = s.charAt(i);
-11
-12            if (Character.isDigit(c)) {
-13                seenDigit = true;
-14            }
-15
-16            else if (c == '+' || c == '-') {
-17                if (i != 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E') {
-18                    return false;
-19                }
-20            }
-21
-22            else if (c == '.') {
-23                if (seenDot || seenExp) {
-24                    return false;
-25                }
-26                seenDot = true;
-27            }
-28
-29            else if (c == 'e' || c == 'E') {
-30                if (seenExp || !seenDigit) {
-31                    return false;
-32                }
-33                seenExp = true;
-34                seenDigit = false;
-35            }
-36
-37            else {
-38                return false;
-39            }
-40        }
-41
-42        return seenDigit;
-43    }
-44}
+4        int m = s.length();
+5        int n = t.length();
+6
+7        int[][] dp = new int[m + 1][n + 1];
+8
+9        // Empty string t can always be formed
+10        for (int i = 0; i <= m; i++) {
+11            dp[i][0] = 1;
+12        }
+13
+14        for (int i = 1; i <= m; i++) {
+15            for (int j = 1; j <= n; j++) {
+16
+17                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+18                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+19                } else {
+20                    dp[i][j] = dp[i - 1][j];
+21                }
+22            }
+23        }
+24
+25        return dp[m][n];
+26    }
+27}
