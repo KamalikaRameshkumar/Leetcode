@@ -1,41 +1,30 @@
-// Last updated: 7/21/2026, 10:28:53 AM
-1/**
-2 * Definition for a binary tree node.
-3 * public class TreeNode {
-4 *     int val;
-5 *     TreeNode left;
-6 *     TreeNode right;
-7 *     TreeNode() {}
-8 *     TreeNode(int val) { this.val = val; }
-9 *     TreeNode(int val, TreeNode left, TreeNode right) {
-10 *         this.val = val;
-11 *         this.left = left;
-12 *         this.right = right;
-13 *     }
-14 * }
-15 */
-16class Solution {
-17
-18    int maxSum = Integer.MIN_VALUE;
-19
-20    public int maxPathSum(TreeNode root) {
-21        dfs(root);
-22        return maxSum;
-23    }
-24
-25    private int dfs(TreeNode node) {
+// Last updated: 7/21/2026, 10:34:27 AM
+1class Solution {
+2
+3    public int minCut(String s) {
+4        int n = s.length();
+5
+6        boolean[][] palindrome = new boolean[n][n];
+7        int[] dp = new int[n];
+8
+9        for (int i = 0; i < n; i++) {
+10            dp[i] = i; // Maximum cuts
+11
+12            for (int j = 0; j <= i; j++) {
+13
+14                if (s.charAt(i) == s.charAt(j) &&
+15                        (i - j <= 2 || palindrome[j + 1][i - 1])) {
+16
+17                    palindrome[j][i] = true;
+18
+19                    if (j == 0)
+20                        dp[i] = 0;
+21                    else
+22                        dp[i] = Math.min(dp[i], dp[j - 1] + 1);
+23                }
+24            }
+25        }
 26
-27        if (node == null) {
-28            return 0;
-29        }
-30
-31        int left = Math.max(0, dfs(node.left));
-32        int right = Math.max(0, dfs(node.right));
-33
-34        // Maximum path passing through this node
-35        maxSum = Math.max(maxSum, node.val + left + right);
-36
-37        // Return the maximum gain to the parent
-38        return node.val + Math.max(left, right);
-39    }
-40}
+27        return dp[n - 1];
+28    }
+29}
