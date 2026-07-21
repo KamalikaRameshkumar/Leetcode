@@ -1,27 +1,40 @@
-// Last updated: 7/21/2026, 9:49:33 AM
+// Last updated: 7/21/2026, 9:50:11 AM
 1class Solution {
-2    public int longestValidParentheses(String s) {
+2    public void nextPermutation(int[] nums) {
 3
-4        Stack<Integer> stack = new Stack<>();
-5        stack.push(-1);
-6
-7        int max = 0;
-8
-9        for (int i = 0; i < s.length(); i++) {
+4        int i = nums.length - 2;
+5
+6        // Step 1: Find the first decreasing element
+7        while (i >= 0 && nums[i] >= nums[i + 1]) {
+8            i--;
+9        }
 10
-11            if (s.charAt(i) == '(') {
-12                stack.push(i);
-13            } else {
-14                stack.pop();
-15
-16                if (stack.isEmpty()) {
-17                    stack.push(i);
-18                } else {
-19                    max = Math.max(max, i - stack.peek());
-20                }
-21            }
-22        }
-23
-24        return max;
-25    }
-26}
+11        // Step 2: Find the next larger element and swap
+12        if (i >= 0) {
+13            int j = nums.length - 1;
+14
+15            while (nums[j] <= nums[i]) {
+16                j--;
+17            }
+18
+19            swap(nums, i, j);
+20        }
+21
+22        // Step 3: Reverse the remaining part
+23        reverse(nums, i + 1, nums.length - 1);
+24    }
+25
+26    private void swap(int[] nums, int i, int j) {
+27        int temp = nums[i];
+28        nums[i] = nums[j];
+29        nums[j] = temp;
+30    }
+31
+32    private void reverse(int[] nums, int left, int right) {
+33        while (left < right) {
+34            swap(nums, left, right);
+35            left++;
+36            right--;
+37        }
+38    }
+39}
