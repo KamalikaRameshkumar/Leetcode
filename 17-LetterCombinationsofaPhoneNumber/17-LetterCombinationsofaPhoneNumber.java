@@ -1,38 +1,34 @@
-// Last updated: 7/21/2026, 9:44:55 AM
+// Last updated: 7/21/2026, 9:47:39 AM
 1class Solution {
-2
-3    public List<String> letterCombinations(String digits) {
-4
-5        List<String> result = new ArrayList<>();
-6
-7        if (digits.length() == 0) {
-8            return result;
-9        }
+2    public int divide(int dividend, int divisor) {
+3
+4        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+5            return Integer.MAX_VALUE;
+6        }
+7
+8        long dvd = Math.abs((long) dividend);
+9        long dvs = Math.abs((long) divisor);
 10
-11        String[] map = {
-12            "", "", "abc", "def", "ghi", "jkl",
-13            "mno", "pqrs", "tuv", "wxyz"
-14        };
-15
-16        backtrack(digits, 0, new StringBuilder(), result, map);
+11        int result = 0;
+12
+13        while (dvd >= dvs) {
+14
+15            long temp = dvs;
+16            int multiple = 1;
 17
-18        return result;
-19    }
-20
-21    public void backtrack(String digits, int index, StringBuilder current,
-22                          List<String> result, String[] map) {
-23
-24        if (index == digits.length()) {
-25            result.add(current.toString());
-26            return;
-27        }
-28
-29        String letters = map[digits.charAt(index) - '0'];
+18            while (dvd >= (temp << 1)) {
+19                temp <<= 1;
+20                multiple <<= 1;
+21            }
+22
+23            dvd -= temp;
+24            result += multiple;
+25        }
+26
+27        if ((dividend > 0) ^ (divisor > 0)) {
+28            return -result;
+29        }
 30
-31        for (char ch : letters.toCharArray()) {
-32            current.append(ch);
-33            backtrack(digits, index + 1, current, result, map);
-34            current.deleteCharAt(current.length() - 1);
-35        }
-36    }
-37}
+31        return result;
+32    }
+33}
