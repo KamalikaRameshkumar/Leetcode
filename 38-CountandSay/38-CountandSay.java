@@ -1,42 +1,45 @@
-// Last updated: 7/21/2026, 9:56:38 AM
+// Last updated: 7/21/2026, 10:00:16 AM
 1class Solution {
-2
-3    int count = 0;
-4
-5    public int totalNQueens(int n) {
-6
-7        boolean[] cols = new boolean[n];
-8        boolean[] diag1 = new boolean[2 * n];
-9        boolean[] diag2 = new boolean[2 * n];
-10
-11        backtrack(0, n, cols, diag1, diag2);
-12
-13        return count;
-14    }
+2    public boolean isNumber(String s) {
+3
+4        boolean seenDigit = false;
+5        boolean seenDot = false;
+6        boolean seenExp = false;
+7
+8        for (int i = 0; i < s.length(); i++) {
+9
+10            char c = s.charAt(i);
+11
+12            if (Character.isDigit(c)) {
+13                seenDigit = true;
+14            }
 15
-16    private void backtrack(int row, int n, boolean[] cols,
-17                           boolean[] diag1, boolean[] diag2) {
-18
-19        if (row == n) {
-20            count++;
-21            return;
-22        }
-23
-24        for (int col = 0; col < n; col++) {
-25
-26            if (cols[col] || diag1[row + col] || diag2[row - col + n]) {
-27                continue;
-28            }
-29
-30            cols[col] = true;
-31            diag1[row + col] = true;
-32            diag2[row - col + n] = true;
-33
-34            backtrack(row + 1, n, cols, diag1, diag2);
-35
-36            cols[col] = false;
-37            diag1[row + col] = false;
-38            diag2[row - col + n] = false;
-39        }
-40    }
-41}
+16            else if (c == '+' || c == '-') {
+17                if (i != 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E') {
+18                    return false;
+19                }
+20            }
+21
+22            else if (c == '.') {
+23                if (seenDot || seenExp) {
+24                    return false;
+25                }
+26                seenDot = true;
+27            }
+28
+29            else if (c == 'e' || c == 'E') {
+30                if (seenExp || !seenDigit) {
+31                    return false;
+32                }
+33                seenExp = true;
+34                seenDigit = false;
+35            }
+36
+37            else {
+38                return false;
+39            }
+40        }
+41
+42        return seenDigit;
+43    }
+44}
