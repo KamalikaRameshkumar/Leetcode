@@ -1,36 +1,29 @@
-// Last updated: 7/22/2026, 3:19:33 PM
-1/**
-2 * Definition for singly-linked list.
-3 * public class ListNode {
-4 *     int val;
-5 *     ListNode next;
-6 *     ListNode() {}
-7 *     ListNode(int val) { this.val = val; }
-8 *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-9 * }
-10 */
-11class Solution {
-12    public ListNode reverseBetween(ListNode head, int left, int right) {
-13        if (head == null || left == right) {
-14            return head;
-15        }
+// Last updated: 7/22/2026, 3:20:19 PM
+1class Solution {
+2    public int numDecodings(String s) {
+3        int n = s.length();
+4
+5        if (s.charAt(0) == '0') {
+6            return 0;
+7        }
+8
+9        int[] dp = new int[n + 1];
+10        dp[0] = 1;
+11        dp[1] = 1;
+12
+13        for (int i = 2; i <= n; i++) {
+14            int oneDigit = s.charAt(i - 1) - '0';
+15            int twoDigits = Integer.parseInt(s.substring(i - 2, i));
 16
-17        ListNode dummy = new ListNode(0);
-18        dummy.next = head;
-19
-20        ListNode prev = dummy;
-21        for (int i = 1; i < left; i++) {
-22            prev = prev.next;
-23        }
-24
-25        ListNode curr = prev.next;
-26        for (int i = 0; i < right - left; i++) {
-27            ListNode temp = curr.next;
-28            curr.next = temp.next;
-29            temp.next = prev.next;
-30            prev.next = temp;
-31        }
-32
-33        return dummy.next;
-34    }
-35}
+17            if (oneDigit >= 1) {
+18                dp[i] += dp[i - 1];
+19            }
+20
+21            if (twoDigits >= 10 && twoDigits <= 26) {
+22                dp[i] += dp[i - 2];
+23            }
+24        }
+25
+26        return dp[n];
+27    }
+28}
