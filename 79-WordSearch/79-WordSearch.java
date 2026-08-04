@@ -1,4 +1,4 @@
-// Last updated: 8/4/2026, 9:41:21 AM
+// Last updated: 8/4/2026, 9:43:55 AM
 1/**
 2 * Definition for a binary tree node.
 3 * public class TreeNode {
@@ -15,29 +15,24 @@
 14 * }
 15 */
 16class Solution {
-17    public int minDepth(TreeNode root) {
-18        if (root == null) {
-19            return 0;
-20        }
-21        Queue<TreeNode> queue = new LinkedList<>();
-22        queue.offer(root);
-23        int depth = 1;
-24        while (!queue.isEmpty()) {
-25            int size = queue.size();
-26            for (int i = 0; i < size; i++) {
-27                TreeNode current = queue.poll();
-28                if (current.left == null && current.right == null) {
-29                    return depth;
-30                }
-31                if (current.left != null) {
-32                    queue.offer(current.left);
-33                }
-34                if (current.right != null) {
-35                    queue.offer(current.right);
-36                }
-37            }
-38            depth++;
-39        }
-40        return depth;
-41    }
-42}
+17    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+18        List<List<Integer>> result = new ArrayList<>();
+19        dfs(root, targetSum, new ArrayList<>(), result);
+20        return result;
+21    }
+22    private void dfs(TreeNode root, int targetSum,List<Integer> path,List<List<Integer>> result) {
+23        if (root == null) {
+24            return;
+25        }
+26        path.add(root.val);
+27        if (root.left == null && root.right == null) {
+28            if (targetSum == root.val) {
+29                result.add(new ArrayList<>(path));
+30            }
+31        } else {
+32            dfs(root.left, targetSum - root.val, path, result);
+33            dfs(root.right, targetSum - root.val, path, result);
+34        }
+35        path.remove(path.size() - 1);
+36    }
+37}
