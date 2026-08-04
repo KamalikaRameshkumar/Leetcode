@@ -1,4 +1,4 @@
-// Last updated: 8/4/2026, 9:34:23 AM
+// Last updated: 8/4/2026, 9:38:06 AM
 1/**
 2 * Definition for a binary tree node.
 3 * public class TreeNode {
@@ -15,27 +15,28 @@
 14 * }
 15 */
 16class Solution {
-17    int postIndex;
-18    Map<Integer, Integer> map = new HashMap<>();
-19    public TreeNode buildTree(int[] inorder, int[] postorder) {
-20        postIndex = postorder.length - 1;
-21        for (int i = 0; i < inorder.length; i++) {
-22            map.put(inorder[i], i);
-23        }
-24        return build(inorder, postorder, 0, inorder.length - 1);
-25    }
-26    private TreeNode build(int[] inorder, int[] postorder,
-27                           int left, int right) {
-28
-29        if (left > right) {
-30            return null;
-31        }
-32        int rootValue = postorder[postIndex--];
-33        TreeNode root = new TreeNode(rootValue);
-34        int rootIndex = map.get(rootValue);
-35        root.right = build(inorder, postorder,rootIndex + 1, right);
-36        root.left = build(inorder, postorder,left, rootIndex - 1);
-37
-38        return root;
-39    }
-40}
+17    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+18        List<List<Integer>> result = new ArrayList<>();
+19        if (root == null) {
+20            return result;
+21        }
+22        Queue<TreeNode> queue = new LinkedList<>();
+23        queue.offer(root);
+24        while (!queue.isEmpty()) {
+25            int size = queue.size();
+26            List<Integer> level = new ArrayList<>();
+27            for (int i = 0; i < size; i++) {
+28                TreeNode current = queue.poll();
+29                level.add(current.val);
+30                if (current.left != null) {
+31                    queue.offer(current.left);
+32                }
+33                if (current.right != null) {
+34                    queue.offer(current.right);
+35                }
+36            }
+37            result.add(0, level);
+38        }
+39        return result;
+40    }
+41}
