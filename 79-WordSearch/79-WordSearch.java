@@ -1,30 +1,26 @@
-// Last updated: 8/4/2026, 9:29:17 AM
-1class Solution {
-2    public List<String> restoreIpAddresses(String s) {
-3        List<String> result = new ArrayList<>();
-4        backtrack(s, 0, new ArrayList<>(), result);
-5        return result;
-6    }
-7    private void backtrack(String s, int start,
-8                            List<String> parts,
-9                            List<String> result) {
-10        if (parts.size() == 4) {
-11            if (start == s.length()) {
-12                result.add(String.join(".", parts));
-13            }
-14            return;
-15        }
-16        for (int end = start; end < Math.min(start + 3, s.length()); end++) {
-17            String part = s.substring(start, end + 1);
-18            if (part.length() > 1 && part.charAt(0) == '0') {
-19                break;
-20            }
-21            if (Integer.parseInt(part) > 255) {
-22                break;
-23            }
-24            parts.add(part);
-25            backtrack(s, end + 1, parts, result);
-26            parts.remove(parts.size() - 1);
-27        }
-28    }
-29}
+// Last updated: 8/4/2026, 9:30:08 AM
+1/**
+2 * Definition for a binary tree node.
+3 * public class TreeNode {
+4 *     int val;
+5 *     TreeNode left;
+6 *     TreeNode right;
+7 *     TreeNode() {}
+8 *     TreeNode(int val) { this.val = val; }
+9 *     TreeNode(int val, TreeNode left, TreeNode right) {
+10 *         this.val = val;
+11 *         this.left = left;
+12 *         this.right = right;
+13 *     }
+14 * }
+15 */
+16class Solution {
+17    public int maxDepth(TreeNode root) {
+18        if (root == null) {
+19            return 0;
+20        }
+21        int leftDepth = maxDepth(root.left);
+22        int rightDepth = maxDepth(root.right);
+23        return 1 + Math.max(leftDepth, rightDepth);
+24    }
+25}
