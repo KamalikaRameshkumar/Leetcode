@@ -1,22 +1,32 @@
-// Last updated: 8/4/2026, 9:49:56 AM
-1class Solution {
-2    public int longestConsecutive(int[] nums) {
-3        Set<Integer> set = new HashSet<>();
-4        for (int num : nums) {
-5            set.add(num);
-6        }
-7        int longest = 0;
-8        for (int num : set) {
-9            if (!set.contains(num - 1)) {
-10                int current = num;
-11                int length = 1;
-12                while (set.contains(current + 1)) {
-13                    current++;
-14                    length++;
-15                }
-16                longest = Math.max(longest, length);
-17            }
-18        }
-19        return longest;
-20    }
-21}
+// Last updated: 8/4/2026, 9:51:03 AM
+1/**
+2 * Definition for a binary tree node.
+3 * public class TreeNode {
+4 *     int val;
+5 *     TreeNode left;
+6 *     TreeNode right;
+7 *     TreeNode() {}
+8 *     TreeNode(int val) { this.val = val; }
+9 *     TreeNode(int val, TreeNode left, TreeNode right) {
+10 *         this.val = val;
+11 *         this.left = left;
+12 *         this.right = right;
+13 *     }
+14 * }
+15 */
+16class Solution {
+17    public int sumNumbers(TreeNode root) {
+18        return dfs(root, 0);
+19    }
+20    private int dfs(TreeNode root, int current) {
+21        if (root == null) {
+22            return 0;
+23        }
+24        current = current * 10 + root.val;
+25        if (root.left == null && root.right == null) {
+26            return current;
+27        }
+28        return dfs(root.left, current)
+29             + dfs(root.right, current);
+30    }
+31}
