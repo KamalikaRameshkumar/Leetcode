@@ -1,34 +1,23 @@
-// Last updated: 8/4/2026, 9:53:18 AM
+// Last updated: 8/4/2026, 9:55:17 AM
 1class Solution {
-2    public List<List<String>> partition(String s) {
-3        List<List<String>> result = new ArrayList<>();
-4        backtrack(s, 0, new ArrayList<>(), result);
-5        return result;
-6    }
-7    private void backtrack(String s, int start,
-8                            List<String> current,
-9                            List<List<String>> result) {
-10        if (start == s.length()) {
-11            result.add(new ArrayList<>(current));
-12            return;
-13        }
-14        for (int end = start; end < s.length(); end++) {
-15            if (isPalindrome(s, start, end)) {
-16                String part = s.substring(start, end + 1);
-17                current.add(part);
-18                backtrack(s, end + 1, current, result);
-19                current.remove(current.size() - 1);
-20            }
-21        }
-22    }
-23    private boolean isPalindrome(String s, int left, int right) {
-24        while (left < right) {
-25            if (s.charAt(left) != s.charAt(right)) {
-26                return false;
-27            }
-28            left++;
-29            right--;
-30        }
-31        return true;
-32    }
-33}
+2    public int canCompleteCircuit(int[] gas, int[] cost) {
+3        int totalGas = 0;
+4        int totalCost = 0;
+5        int tank = 0;
+6        int start = 0;
+7        for (int i = 0; i < gas.length; i++) {
+8            totalGas += gas[i];
+9            totalCost += cost[i];
+10            tank += gas[i] - cost[i];
+11            if (tank < 0) {
+12                start = i + 1;
+13                tank = 0;
+14            }
+15        }
+16        if (totalGas < totalCost) {
+17            return -1;
+18        }
+19
+20        return start;
+21    }
+22}
