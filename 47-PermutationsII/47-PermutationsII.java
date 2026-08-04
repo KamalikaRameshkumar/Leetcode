@@ -1,19 +1,16 @@
-// Last updated: 8/4/2026, 9:12:35 AM
+// Last updated: 8/4/2026, 9:13:16 AM
 1class Solution {
-2    public double myPow(double x, int n) {
-3        long power = n;
-4        if (power < 0) {
-5            x = 1 / x;
-6            power = -power;
-7        }
-8        double result = 1.0;
-9        while (power > 0) {
-10            if (power % 2 == 1) {
-11                result = result * x;
-12            }
-13            x = x * x;
-14            power = power / 2;
-15        }
-16        return result;
-17    }
-18}
+2    public boolean canJump(int[] nums) {
+3        int farthest = 0;
+4        for (int i = 0; i < nums.length; i++) {
+5            if (i > farthest) {
+6                return false;
+7            }
+8            farthest = Math.max(farthest, i + nums[i]);
+9            if (farthest >= nums.length - 1) {
+10                return true;
+11            }
+12        }
+13        return true;
+14    }
+15}
