@@ -1,50 +1,43 @@
-// Last updated: 8/4/2026, 9:39:26 AM
+// Last updated: 8/4/2026, 9:41:21 AM
 1/**
-2 * Definition for singly-linked list.
-3 * public class ListNode {
+2 * Definition for a binary tree node.
+3 * public class TreeNode {
 4 *     int val;
-5 *     ListNode next;
-6 *     ListNode() {}
-7 *     ListNode(int val) { this.val = val; }
-8 *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-9 * }
-10 */
-11/**
-12 * Definition for a binary tree node.
-13 * public class TreeNode {
-14 *     int val;
-15 *     TreeNode left;
-16 *     TreeNode right;
-17 *     TreeNode() {}
-18 *     TreeNode(int val) { this.val = val; }
-19 *     TreeNode(int val, TreeNode left, TreeNode right) {
-20 *         this.val = val;
-21 *         this.left = left;
-22 *         this.right = right;
-23 *     }
-24 * }
-25 */
-26class Solution {
-27    public TreeNode sortedListToBST(ListNode head) {
-28        if (head == null) {
-29            return null;
-30        }
-31        ListNode slow = head;
-32        ListNode fast = head;
-33        ListNode prev = null;
-34        while (fast != null && fast.next != null) {
-35            prev = slow;
-36            slow = slow.next;
-37            fast = fast.next.next;
-38        }
-39        if (prev != null) {
-40            prev.next = null;
-41        }
-42        TreeNode root = new TreeNode(slow.val);
-43        if (slow != head) {
-44            root.left = sortedListToBST(head);
-45        }
-46        root.right = sortedListToBST(slow.next);
-47        return root;
-48    }
-49}
+5 *     TreeNode left;
+6 *     TreeNode right;
+7 *     TreeNode() {}
+8 *     TreeNode(int val) { this.val = val; }
+9 *     TreeNode(int val, TreeNode left, TreeNode right) {
+10 *         this.val = val;
+11 *         this.left = left;
+12 *         this.right = right;
+13 *     }
+14 * }
+15 */
+16class Solution {
+17    public int minDepth(TreeNode root) {
+18        if (root == null) {
+19            return 0;
+20        }
+21        Queue<TreeNode> queue = new LinkedList<>();
+22        queue.offer(root);
+23        int depth = 1;
+24        while (!queue.isEmpty()) {
+25            int size = queue.size();
+26            for (int i = 0; i < size; i++) {
+27                TreeNode current = queue.poll();
+28                if (current.left == null && current.right == null) {
+29                    return depth;
+30                }
+31                if (current.left != null) {
+32                    queue.offer(current.left);
+33                }
+34                if (current.right != null) {
+35                    queue.offer(current.right);
+36                }
+37            }
+38            depth++;
+39        }
+40        return depth;
+41    }
+42}
